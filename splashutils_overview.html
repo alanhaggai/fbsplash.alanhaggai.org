@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN'
+ 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+    <head>
+        <title>fbsplash: Splashutils Overview</title>
+        <meta http-equiv='content-type' content='text/html; charset=UTF-8' />
+        <link href='/css/screen.css' media='screen' rel='stylesheet' type='text/css' />
+
+        <script type='text/javascript'>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-5111835-10']);
+            _gaq.push(['_trackPageview']);
+
+            ( function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            } )();
+        </script>
+    </head>
+    <body>
+        <div id='header'>
+            <h1><a href='/'>fbsplash</a></h1>
+        </div>
+
+        <div id='navbar'>
+            <ul>
+                <li><a href='/index.html'>Home</a></li>
+                <li><a href='/screenshots/index.html'>Screenshots</a></li>
+                <li><a href='/download.html'>Download</a></li>
+                <li><a href='/faq.html'>FAQ</a></li>
+                <li><a href='/documentation.html'>Documentation</a></li>
+                <li><a href='/mailing_lists.html'>Mailing Lists</a></li>
+                <li><a href='/themes/index.html'>Themes</a></li>
+                <li><a href='/get_involved.html'>Get Involved</a></li>
+                <li><a href='/todo.html'>TODO</a></li>
+                <li><a href='/themes/submit.html'>Submit a Theme</a></li>
+            </ul>
+        </div>
+
+        <div id='content'><h2>Splashutils Overview</h2>
+
+<p>Splashutils is a collection of fbsplash-related utilities and scripts.</p>
+
+<h3>Standard Programs</h3>
+
+<ul>
+<li><code>fbsplashd</code> – the fbsplash daemon, responsible for displaying the splash
+screen during boot</li>
+<li><code>splash_util</code> – a simple utility for various splash-related tasks not
+suitable for fbsplashd</li>
+<li><code>splash_manager</code> – a wrapper script useful for testing themes, taking
+screenshots, etc.</li>
+<li><code>splash_geninitramfs</code> – a helper script to include fbcondecor_helper in
+initramfs images</li>
+</ul>
+
+<h3>Optional Programs</h3>
+
+<p>splashutils has optional support for the fbcondecor kernel patch. If compiled
+with this functionality enabled, the following two additional programs will be
+installed:</p>
+
+<ul>
+<li><code>fbcondecor_ctl</code> – a control application for the fbcondecor kernel patch</li>
+<li><code>fbcondecor_helper</code> – a kernel helper for the fbcondecor kernel patch</li>
+</ul>
+
+<h3>Libraries</h3>
+
+<ul>
+<li><code>libfbsplash.so</code> – a library to facilitate the integration of fbsplash with the
+initscript system</li>
+<li><code>libfbsplashrender.so</code> – a library to facilitate supporting fbsplash theme
+files in different applications (such as userspace parts of
+Linux hibernation systems)</li>
+</ul>
+</div>
+
+        <div id='footer'>
+            Except where otherwise noted, content on this website is licensed
+            under the following license: <a
+            href='http://creativecommons.org/licenses/by-nc-sa/3.0/'>CC
+            Attribution-Noncommercial-Share Alike 3.0 Unported</a>
+        </div>
+    </body>
+</html>

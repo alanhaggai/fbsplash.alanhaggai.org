@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN'
+ 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+    <head>
+        <title>fbsplash: Splashutils on Linux from Scratch</title>
+        <meta http-equiv='content-type' content='text/html; charset=UTF-8' />
+        <link href='/css/screen.css' media='screen' rel='stylesheet' type='text/css' />
+
+        <script type='text/javascript'>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-5111835-10']);
+            _gaq.push(['_trackPageview']);
+
+            ( function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            } )();
+        </script>
+    </head>
+    <body>
+        <div id='header'>
+            <h1><a href='/'>fbsplash</a></h1>
+        </div>
+
+        <div id='navbar'>
+            <ul>
+                <li><a href='/index.html'>Home</a></li>
+                <li><a href='/screenshots/index.html'>Screenshots</a></li>
+                <li><a href='/download.html'>Download</a></li>
+                <li><a href='/faq.html'>FAQ</a></li>
+                <li><a href='/documentation.html'>Documentation</a></li>
+                <li><a href='/mailing_lists.html'>Mailing Lists</a></li>
+                <li><a href='/themes/index.html'>Themes</a></li>
+                <li><a href='/get_involved.html'>Get Involved</a></li>
+                <li><a href='/todo.html'>TODO</a></li>
+                <li><a href='/themes/submit.html'>Submit a Theme</a></li>
+            </ul>
+        </div>
+
+        <div id='content'><h2>Splashutils on Linux from Scratch</h2>
+
+<p>The following is to explain what I had to do to get Splashutils compiled on my Linux From Scratch installation:</p>
+
+<h3>Overview:</h3>
+
+<ul>
+<li>You will need to install KLIBC</li>
+<li>If GPM is not already installed you will need to install this.</li>
+<li>Compile and install Splashutils</li>
+<li>Patch kernel 2.6.24</li>
+<li>Configure GRUB</li>
+</ul>
+
+<h3>Details:</h3>
+
+<h4>KLIBC</h4>
+
+<ol>
+<li><p>Download klibc:</p>
+
+<pre><code>wget ftp://ftp.berlios.de/pub/fbsplash/debian/klibc/pool/contrib/k/klibc/klibc_1.5.7.orig.tar.gz
+</code></pre></li>
+<li><p>Extract this:</p>
+
+<pre><code>tar zxvf klibc_1.5.7.orig.tar.gz
+</code></pre></li>
+<li><p>In the klibc-1.5.7 directory create a symbolic link to your Linux headers directory:</p>
+
+<pre><code>ln -s /usr/src/linux linux
+</code></pre></li>
+<li><p>Compile the klibc: <code>make; make install</code></p>
+
+<pre><code>If you get any errors then check linux source directory.
+Else download the Kernel source(http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.24.tar.bz2 )
+Extract the kernel: tar jxvf linux-2.6.24.tar.bz2
+In linux-2.6.24 build the API headers:
+    make mrproper
+    make headers_check
+    make INSTALL_HDR_PATH=dest headers_install
+In the klibc directory create a symbolic link to the linux-2.6.24/dest directory: 
+ln -s ../linux-2.6.24/dest linux
+Try and make again: make; make install
+</code></pre></li>
+<li><p>You should now have klcc at <code>/usr/bin/klcc</code> and <code>libs</code> for klibc in <code>/usr/lib/klibc</code></p></li>
+<li><p>Check that <code>/usr/lib/klibc/include/asm</code> has <code>posix_types.h</code> file, if it does
+not then copy all files from <code>/usr/src/linux/include/asm</code> into this directory:</p>
+
+<pre><code>cp /usr/src/linux/include/asm/* /usr/lib/klibc/include/asm
+</code></pre></li>
+</ol>
+
+<h4>GPM</h4>
+
+<ol>
+<li><p>Use the LFS guide for GPM:</p>
+
+<p><a href="http://www.linuxfromscratch.org/blfs/view/stable/general/sysutils.html">http://www.linuxfromscratch.org/blfs/view/stable/general/sysutils.html</a></p></li>
+</ol>
+
+<p>NOTE: I can't see a reason why you would need to install GPM to get fbsplash to work. It works on my system without GPM. - Andre</p>
+
+<h4>SPLASHUTILS</h4>
+
+<ol>
+<li><p>Download the latest version of splashutils:</p>
+
+<pre><code>wget http://download.berlios.de/fbsplash/splashutils-1.5.4.tar.bz2
+</code></pre></li>
+<li><p>Extract this:</p>
+
+<pre><code>tar jxvf splashutils-1.5.4.tar.bz2
+</code></pre></li>
+<li><p>In the splashutils-1.5.4 directory run configure:</p>
+
+<pre><code>./configure
+</code></pre></li>
+<li><p>Compile splashutils:</p>
+
+<pre><code> make; make install
+</code></pre></li>
+</ol>
+
+<h4>PATCH THE KERNEL</h4>
+
+<ol>
+<li><p>If you are not already using Kernel 2.4.26 then download it:</p>
+
+<pre><code>wget http://www.eu.kernel.org/pub/linux/kernel/v2.6/linux-2.6.24.tar.bz2
+</code></pre></li>
+<li><p>Extract the kernel source</p>
+
+<pre><code>tar jxvf linux-2.6.24.tar.bz2
+</code></pre></li>
+<li><p>Download the fbcondecor patch</p>
+
+<pre><code>wget http://dev.gentoo.org/~dsd/genpatches/trunk/2.6.24/4200_fbcondecor-0.9.4.patch
+</code></pre></li>
+<li><p>In the Kernel source directory(linux-2.6.24) patch the source</p>
+
+<pre><code>patch -Np1 -i ../4200_fbcondecor-0.9.4.patch
+</code></pre></li>
+<li><p>Ensure that the kernel source is clean</p>
+
+<pre><code>make mrproper
+</code></pre></li>
+<li><p>At this stage you should configure the kernel with all your required settings. I cheat by copying my previous kernel version config file to the <code>linux-2.6.24/.config</code></p>
+
+<pre><code>make mrproper
+</code></pre></li>
+<li><p>Ensure that the following is set in the kernel:</p>
+
+<p><code>Device Drivers-&gt;Graphics Support-&gt;Support</code> for frame buffer devices, <code>Device drivers-&gt;Graphics support-&gt;Console display driver support-&gt;Framebuffer Console support</code>, <code>Device drivers-&gt;Graphics support-&gt;Console Display driver support-&gt;Support for the Framebuffer Console Decorations</code>.</p></li>
+<li><p>Make the kernel:</p>
+
+<pre><code>make
+</code></pre></li>
+<li><p>Copy the bzImage and config files to your boot directory</p>
+
+<pre><code>cp -v arch/i386/boot/bzImage /boot/kernel-2.6.24
+cp -v System.map /boot/System.map-2.6.24
+cp -v .config /boot/config-2.6.24
+</code></pre></li>
+</ol>
+
+<h4>Build an initramfs:</h4>
+
+<ol>
+<li><p>Create an /etc/splash directory</p>
+
+<pre><code>mkdir /etc/splash
+</code></pre></li>
+<li><p>Download into this directory a theme</p>
+
+<pre><code>wget http://fbsplash.berlios.de/themes/repo/emergence.tar.bz2
+</code></pre></li>
+<li><p>Extract this theme</p>
+
+<pre><code>tar jxvf emergence.tar.bz2
+</code></pre></li>
+<li><p>Create an initramfs with this theme</p>
+
+<pre><code>splash_geninitramfs -g /boot/initrd-fbsplash -r 1024x768 -v emergence
+</code></pre></li>
+</ol>
+
+<h4>Configure GRUB:</h4>
+
+<ol>
+<li><p>Create a new entry in /boot/grub/menu.lst.</p>
+
+<pre><code>title fbsplash
+kernel /boot/kernel-2.6.24 root=/dev/sda1 vga=791 splash=verbose,fadein,theme:emergence quiet CONSOLE=tty1
+initrd /boot/initrd-fbsplash
+</code></pre>
+
+<p>Note: At this point in time I can not get silent splash to work. This must be something to do with the way LFS boot_mesg works.</p>
+
+<p>EDIT: This does not come as a surprise. You need to add <code>quiet CONSOLE=tty1</code> to your boot parameters (I edited the grub config shown above). - Andre</p></li>
+</ol>
+
+<p>I hope this helps</p>
+
+<p>Jason</p>
+</div>
+
+        <div id='footer'>
+            Except where otherwise noted, content on this website is licensed
+            under the following license: <a
+            href='http://creativecommons.org/licenses/by-nc-sa/3.0/'>CC
+            Attribution-Noncommercial-Share Alike 3.0 Unported</a>
+        </div>
+    </body>
+</html>

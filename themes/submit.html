@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN'
+ 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+    <head>
+        <title>fbsplash: Submitting Fbsplash Themes</title>
+        <meta http-equiv='content-type' content='text/html; charset=UTF-8' />
+        <link href='/css/screen.css' media='screen' rel='stylesheet' type='text/css' />
+
+        <script type='text/javascript'>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-5111835-10']);
+            _gaq.push(['_trackPageview']);
+
+            ( function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            } )();
+        </script>
+    </head>
+    <body>
+        <div id='header'>
+            <h1><a href='/'>fbsplash</a></h1>
+        </div>
+
+        <div id='navbar'>
+            <ul>
+                <li><a href='/index.html'>Home</a></li>
+                <li><a href='/screenshots/index.html'>Screenshots</a></li>
+                <li><a href='/download.html'>Download</a></li>
+                <li><a href='/faq.html'>FAQ</a></li>
+                <li><a href='/documentation.html'>Documentation</a></li>
+                <li><a href='/mailing_lists.html'>Mailing Lists</a></li>
+                <li><a href='/themes/index.html'>Themes</a></li>
+                <li><a href='/get_involved.html'>Get Involved</a></li>
+                <li><a href='/todo.html'>TODO</a></li>
+                <li><a href='/themes/submit.html'>Submit a Theme</a></li>
+            </ul>
+        </div>
+
+        <div id='content'><h2>Submitting Fbsplash Themes</h2>
+
+<p>So, you created a cool new theme and you want to share it with the rest of the
+world? The best way to do this is to submit it for inclusion in our theme
+repository. To do so, just follow the guidelines below:</p>
+
+<ol>
+<li><p>Make sure your theme contains a valid <code>metadata.xml</code> file. The metadata is
+important, as it will be used to automatically generate info pages in our theme
+repository.</p></li>
+<li><p>Validate your theme. You can do this in a variety of different ways. First,
+download <a href="/themes/files/thememeta.xsd"><code>thememeta.xsd</code></a> and then run:</p>
+
+<ul>
+<li>using <code>libxml2</code> (<code>dev-libs/libxml2</code> in Gentoo): <code>xmllint –schema thememeta.xsd metadata.xml</code>,</li>
+<li>using <code>xmlstarlet</code> (<code>app-text/xmlstarlet</code> in Gentoo): <code>xml val -e -s thememeta.xsd metadata.xml</code>.</li>
+</ul></li>
+<li><p>Make sure your theme is properly packed. The theme package should be a
+gzip-ed (<code>tar.gz</code>) or bzip2-ed (<code>tar.bz2</code>) tar archive containing a single
+directory which should match the name of your theme as specified in the
+<code>metadata.xml</code> file.</p></li>
+<li><p>Send your theme to <a href="&#109;ail&#116;&#111;:&#x61;&#108;&#97;&#110;&#104;&#97;&#103;&#103;&#97;&#105;&#64;&#97;&#x6C;&#97;&#x6E;&#x68;&#97;&#103;g&#97;&#x69;&#46;&#x6F;&#x72;g">&#x61;&#108;&#97;&#110;&#104;&#97;&#103;&#103;&#97;&#105;&#64;&#97;&#x6C;&#97;&#x6E;&#x68;&#97;&#103;g&#97;&#x69;&#46;&#x6F;&#x72;g</a>.</p></li>
+<li><p>Wait for it to be processed and to appear in the theme repository on this
+website. Since theme submissions are processed by a human, it might take a few
+days before the process is completed.</p></li>
+</ol>
+</div>
+
+        <div id='footer'>
+            Except where otherwise noted, content on this website is licensed
+            under the following license: <a
+            href='http://creativecommons.org/licenses/by-nc-sa/3.0/'>CC
+            Attribution-Noncommercial-Share Alike 3.0 Unported</a>
+        </div>
+    </body>
+</html>

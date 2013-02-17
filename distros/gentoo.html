@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN'
+ 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+    <head>
+        <title>fbsplash: Splashutils on Gentoo</title>
+        <meta http-equiv='content-type' content='text/html; charset=UTF-8' />
+        <link href='/css/screen.css' media='screen' rel='stylesheet' type='text/css' />
+
+        <script type='text/javascript'>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-5111835-10']);
+            _gaq.push(['_trackPageview']);
+
+            ( function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            } )();
+        </script>
+    </head>
+    <body>
+        <div id='header'>
+            <h1><a href='/'>fbsplash</a></h1>
+        </div>
+
+        <div id='navbar'>
+            <ul>
+                <li><a href='/index.html'>Home</a></li>
+                <li><a href='/screenshots/index.html'>Screenshots</a></li>
+                <li><a href='/download.html'>Download</a></li>
+                <li><a href='/faq.html'>FAQ</a></li>
+                <li><a href='/documentation.html'>Documentation</a></li>
+                <li><a href='/mailing_lists.html'>Mailing Lists</a></li>
+                <li><a href='/themes/index.html'>Themes</a></li>
+                <li><a href='/get_involved.html'>Get Involved</a></li>
+                <li><a href='/todo.html'>TODO</a></li>
+                <li><a href='/themes/submit.html'>Submit a Theme</a></li>
+            </ul>
+        </div>
+
+        <div id='content'><h2>Splashutils on Gentoo</h2>
+
+<h3>Installing Splashutils</h3>
+
+<p>First, decide which features you want to enable. Available USE flags are:</p>
+
+<ul>
+<li>png: support for PNG pictures</li>
+<li>mng: support for MNG animations</li>
+<li>truetype: support for TrueType fonts</li>
+<li>fbcondecor: support for the FBConDecor kernel patch</li>
+</ul>
+
+<p>To enable a specific USE flag for splashutils, add an appropriate line to the
+<code>packages.use</code> file, e.g. to enable <code>fbcondecor</code>, execute <code>echo
+"media-gfx/splashutils fbcondecor" » /etc/portage/packages.use</code></p>
+
+<p>After you've decided on the features, install splashutils: <code>emerge splashutils</code>.</p>
+
+<p>The splashutils package doesn't contain any themes, so you'll probably want to
+install some to test your fbsplash installation. A good theme to try is the
+Gentoo LiveCD splash theme. To install it, run: <code>emerge splash-themes-livecd</code>.</p>
+
+<h3>Configuring Splashutils</h3>
+
+<p>To enable fbsplash, you have to edit the config file of your bootloader. Find
+the kernel command line for your current kernel and extend it with:
+<code>splash=silent,theme:SampleTheme quiet console=tty1</code> (replace SampleTheme with a
+theme you wish to use).</p>
+
+<p>If you're using a kernel patched with fbcondecor (<code>gentoo-sources</code> is always
+patched automatically), you might want to create an initramfs image that the
+kernel will be able to use display the splash screen at an early stage of the
+boot process. To create this image, use <code>splash_geninitramfs -g
+/boot/fbsplash-initrd -r 1024×768 -v SampleTheme</code> (replace 1024×786 with your
+framebuffer resolution, use <code>fbset -i</code> if you don't know what it is) and then
+configure your bootloader to use <code>/boot/fbsplash-initrd</code> as an initrd.</p>
+
+<h3>More Info</h3>
+
+<p>Unofficial documentation about fbsplash on Gentoo is available in the <a href="http://gentoo-wiki.com/HOWTO_gensplash">Gentoo
+Wiki</a>.</p>
+</div>
+
+        <div id='footer'>
+            Except where otherwise noted, content on this website is licensed
+            under the following license: <a
+            href='http://creativecommons.org/licenses/by-nc-sa/3.0/'>CC
+            Attribution-Noncommercial-Share Alike 3.0 Unported</a>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN'
+ 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+    <head>
+        <title>fbsplash: Fbsplash Internals</title>
+        <meta http-equiv='content-type' content='text/html; charset=UTF-8' />
+        <link href='/css/screen.css' media='screen' rel='stylesheet' type='text/css' />
+
+        <script type='text/javascript'>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-5111835-10']);
+            _gaq.push(['_trackPageview']);
+
+            ( function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            } )();
+        </script>
+    </head>
+    <body>
+        <div id='header'>
+            <h1><a href='/'>fbsplash</a></h1>
+        </div>
+
+        <div id='navbar'>
+            <ul>
+                <li><a href='/index.html'>Home</a></li>
+                <li><a href='/screenshots/index.html'>Screenshots</a></li>
+                <li><a href='/download.html'>Download</a></li>
+                <li><a href='/faq.html'>FAQ</a></li>
+                <li><a href='/documentation.html'>Documentation</a></li>
+                <li><a href='/mailing_lists.html'>Mailing Lists</a></li>
+                <li><a href='/themes/index.html'>Themes</a></li>
+                <li><a href='/get_involved.html'>Get Involved</a></li>
+                <li><a href='/todo.html'>TODO</a></li>
+                <li><a href='/themes/submit.html'>Submit a Theme</a></li>
+            </ul>
+        </div>
+
+        <div id='content'><h2>Fbsplash Internals</h2>
+
+<h3>Starting Fbsplash</h3>
+
+<p>There are three main points during the boot process when it makes sense to
+start fbsplash. Not surprisingly, the one that takes the most effort to set up
+also yields the best results (in terms of how early the silent splash image is
+displayed). The three ways of starting fbsplash, in order of increasing
+configuration difficulty are the following:</p>
+
+<ol>
+<li>Start the fbsplash daemon using the initscript system (<strong>start-from-rc</strong>)</li>
+<li>Start fbsplash from an initrd after the kernel is fully loaded, but before
+the initscript system kicks in (<strong>start-from-initrd</strong>)</li>
+<li>Start fbsplash from an initramfs image right after the framebuffer is
+activated, during kernel bootup (<strong>start-from-kernel</strong>)</li>
+</ol>
+
+<h4>start-from-rc</h4>
+
+<p>Starting fbsplash daemon from the initscript system is relatively easy. It
+doesn't require touching the kernel in any way. The two steps necessary to get
+it working are usually:</p>
+
+<ul>
+<li>installing the core fbsplash utilities and scripts, patching the</li>
+<li>initscript system or installing appropriate plugins/addons that add 
+support for fbsplash.</li>
+</ul>
+
+<p>Note that these two steps are also necessary for the other ways of starting
+fbsplash (start-from-initrd, start-from-kernel). Thus, start-from-rc is a good
+first step when porting fbsplash to a previously unsupported distro.</p>
+
+<h6>When is fbsplash started?</h6>
+
+<p>In start-from-rc, the fbsplash daemon (fbsplashd) is normally started before
+all initscripts, but after the initial system setup is done (/proc and /sys are
+mounted, udev started and /dev is fully populated). The details might differ
+from distro to distro, but it is essential to start the daemon as early as
+possible to ensure the best user experience.</p>
+
+<h5>Advantages</h5>
+
+<ul>
+<li>easy to setup, no kernel modifications required</li>
+<li>necessary to get fbsplash working anyway</li>
+</ul>
+
+<h5>Disadvantages</h5>
+
+<ul>
+<li>some kernel messages or messages from the early system setup might be
+visible on the screen before the silent splash screen is brought up</li>
+<li>it might take up to 10-15 sec before the splash is screen is displayed,
+depending on system configuration</li>
+</ul>
+
+<h4>start-from-initrd</h4>
+
+<h6>When is fbsplash started?</h6>
+
+<p>In start-from-initrd, fbsplash is started after the kernel has finished
+booting, but before <code>/sbin/init</code> from the live system is executed. The splash
+screen will thus appear several seconds faster than in the case of
+start-from-rc.</p>
+
+<h5>Advantages</h5>
+
+<ul>
+<li>no kernel modifications required</li>
+<li>no messages coming from the initscript system will be visible on the screen</li>
+</ul>
+
+<h5>Disadvantages</h5>
+
+<ul>
+<li>requires integration with whatever initrd setup your distro is using</li>
+</ul>
+
+<h4>start-from-kernel</h4>
+
+<p><img src="/img/fixme.gif" alt="" /></p>
+</div>
+
+        <div id='footer'>
+            Except where otherwise noted, content on this website is licensed
+            under the following license: <a
+            href='http://creativecommons.org/licenses/by-nc-sa/3.0/'>CC
+            Attribution-Noncommercial-Share Alike 3.0 Unported</a>
+        </div>
+    </body>
+</html>

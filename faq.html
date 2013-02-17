@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN'
+ 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+    <head>
+        <title>fbsplash: FAQ</title>
+        <meta http-equiv='content-type' content='text/html; charset=UTF-8' />
+        <link href='/css/screen.css' media='screen' rel='stylesheet' type='text/css' />
+
+        <script type='text/javascript'>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-5111835-10']);
+            _gaq.push(['_trackPageview']);
+
+            ( function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            } )();
+        </script>
+    </head>
+    <body>
+        <div id='header'>
+            <h1><a href='/'>fbsplash</a></h1>
+        </div>
+
+        <div id='navbar'>
+            <ul>
+                <li><a href='/index.html'>Home</a></li>
+                <li><a href='/screenshots/index.html'>Screenshots</a></li>
+                <li><a href='/download.html'>Download</a></li>
+                <li><a href='/faq.html'>FAQ</a></li>
+                <li><a href='/documentation.html'>Documentation</a></li>
+                <li><a href='/mailing_lists.html'>Mailing Lists</a></li>
+                <li><a href='/themes/index.html'>Themes</a></li>
+                <li><a href='/get_involved.html'>Get Involved</a></li>
+                <li><a href='/todo.html'>TODO</a></li>
+                <li><a href='/themes/submit.html'>Submit a Theme</a></li>
+            </ul>
+        </div>
+
+        <div id='content'><h2>Frequently Asked Questions</h2>
+
+<h3>Why can't I use the <kbd>F2</kbd> key to switch back to the splash screen?</h3>
+
+<p>To be able to use the <kbd>F2</kbd> key to switch to the splash screen you need
+the kernel evdev (Event Device) module (switching from the splash screen to the
+first console should work regardless of whether you use this module or not). To
+make sure the event device is enabled, build your kernel with
+<code>CONFIG_INPUT_EVDEV=y</code>. Building <code>evdev</code> as a module might or might not work,
+depending on how your Linux distribution handles the loading of kernel modules.</p>
+
+<h3>The screen flickers during the boot</h3>
+
+<p>This is often due to a distribution-specific initscript, which is modifying the
+settings of the system consoles. For instance, on Debian the problem is caused
+by <code>/etc/init.d/console-screen.sh</code>, and you can easily fix it by commenting out
+all lines starting with <code>SCREEN_FONT</code> in <code>/etc/console-tools/config</code>.</p>
+
+<h3>Can fbsplash be used with KMS (Kernel Mode Setting)?</h3>
+
+<p>Absolutely! KMS provides a standard framebuffer device which allows fbsplash to
+operate in the usual fashion. In the case of Intel hardware, the framebuffer
+driver is called <code>inteldrmfb</code>, and is provided by the Intel DRM module, not by
+<code>intelfb</code>. In fact, you don't even need to have <code>intelfb</code> enabled if you're using
+KMS. This also means that in case you want to take advantage of the early
+silent splash feature (this requires the fbcondecor kernel patch), you need to
+have the Intel DRM module built into the kernel.</p>
+</div>
+
+        <div id='footer'>
+            Except where otherwise noted, content on this website is licensed
+            under the following license: <a
+            href='http://creativecommons.org/licenses/by-nc-sa/3.0/'>CC
+            Attribution-Noncommercial-Share Alike 3.0 Unported</a>
+        </div>
+    </body>
+</html>

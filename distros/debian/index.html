@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN'
+ 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+    <head>
+        <title>fbsplash: Splashutils on Debian</title>
+        <meta http-equiv='content-type' content='text/html; charset=UTF-8' />
+        <link href='/css/screen.css' media='screen' rel='stylesheet' type='text/css' />
+
+        <script type='text/javascript'>
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-5111835-10']);
+            _gaq.push(['_trackPageview']);
+
+            ( function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            } )();
+        </script>
+    </head>
+    <body>
+        <div id='header'>
+            <h1><a href='/'>fbsplash</a></h1>
+        </div>
+
+        <div id='navbar'>
+            <ul>
+                <li><a href='/index.html'>Home</a></li>
+                <li><a href='/screenshots/index.html'>Screenshots</a></li>
+                <li><a href='/download.html'>Download</a></li>
+                <li><a href='/faq.html'>FAQ</a></li>
+                <li><a href='/documentation.html'>Documentation</a></li>
+                <li><a href='/mailing_lists.html'>Mailing Lists</a></li>
+                <li><a href='/themes/index.html'>Themes</a></li>
+                <li><a href='/get_involved.html'>Get Involved</a></li>
+                <li><a href='/todo.html'>TODO</a></li>
+                <li><a href='/themes/submit.html'>Submit a Theme</a></li>
+            </ul>
+        </div>
+
+        <div id='content'><h2>Splashutils on Debian</h2>
+
+<h3>Current Packages Versions</h3>
+
+<ul>
+<li><code>splashutils</code>: latest i386, powerpc and amd64 version is 1.5.4.2-1 (<a href="/distros/debian/changelog/splashutils.html">debian
+changelog</a>)</li>
+<li><code>miscsplashutils</code>: latest, powerpc i386 and amd64 version is 0.1.8-3 (<a href="/distros/debian/changelog/miscsplashutils.html">debian
+changelog</a>)</li>
+</ul>
+
+<h3>Prologue</h3>
+
+<p>I would like to cite <a href="http://mjanusz.wordpress.com/">spock's weblog</a>:</p>
+
+<pre><code>fbsplash = silent splash, fbcondecor = verbose splash.
+
+    * Since the gensplash project was started, everyone referred to the userspace part as “fbsplash” anyway.
+    * Many people don’t realize that fbsplash is fully functional and usable without any kernel patch.
+    * fbcondecor (which stands for: Framebuffer Console Decorations), which was previously named “fbsplash”,
+has nothing to do with displaying the splash screen during boot. The only thing that it does is displaying
+pictures in the background of system consoles. This is not a splash screen, but a decoration.
+</code></pre>
+
+<p><strong>This means that you DO NOT NEED TO HAVE A PATCHED KERNEL to see the progress
+bar.</strong> You will need a kernel patched with fbcondecor if you want to have console
+decoration.</p>
+
+<h3>Repositories</h3>
+
+<p>End-users will need to add this single line in the file <code>/etc/apt/sources.list</code>:</p>
+
+<pre><code>deb ftp://ftp.berlios.de/pub/fbsplash/debian/splashutils sid contrib
+</code></pre>
+
+<p>See at the end of this document on how you can rebuild the packages.</p>
+
+<p>There are four packages:</p>
+
+<pre><code>miscsplashutils             Miscellaneous tools for splashutils
+splashutils                 Splashutils main package
+splashutils-dev             Splashutils dev package
+splashutils-initramfs       Splashutils initramfs hook and script
+</code></pre>
+
+<h3>Installation</h3>
+
+<h4>Required packages</h4>
+
+<p>Unless you want to see a background image at very early boot (i.e. almost
+immediately after linux kernel has started, and before the userspace's INIT is
+taking over), you will only need to install the splashutils package:</p>
+
+<pre><code>apt-get install splashutils
+</code></pre>
+
+<p>Obviously you can do that with your preferred package installer, <code>dselect</code>,
+<code>aptitude</code>, <code>kpackage</code>, etc… Installation of splashutils will trigger automatically
+the installation miscsplashutils. So the minimum number of required packages is
+two: splashutils and miscsplashutils.</p>
+
+<h4>Install a theme</h4>
+
+<p>Unless a theme is packaged, you have to install it by hand. You can find themes
+on this wiki at the themes page, or on the web, for example at
+<a href="http://kde-look.org">http://kde-look.org</a>. Themes always reside entirely under
+<code>/etc/splash</code> directory, that has been created when you installed the
+splashutils package. For example, taking the emergence theme:</p>
+
+<pre><code>cd /tmp
+wget http://fbsplash.berlios.de/themes/repo/emergence.tar.bz2
+cd /etc/splash
+sudo tar -jxvf /tmp/emergence.tar.bz2
+</code></pre>
+
+<h4>Configure the kernel command-line</h4>
+
+<p>Take a look at your boot configuration (whereas this is lilo, grub, etc…) and add the followings to the kernel command-line:</p>
+
+<pre><code>splash=silent,fadein,theme:THEME quiet CONSOLE=/dev/tty1
+</code></pre>
+
+<p>where you put a real theme name instead of THEME! For example, still with the emergence theme that we previously installed:</p>
+
+<pre><code>splash=silent,fadein,theme:emergence quiet CONSOLE=/dev/tty1
+</code></pre>
+
+<h3>Troubleshooting</h3>
+
+<p>First, always check the <a href="/faq.html">FAQ</a> page.</p>
+
+<h4>Extra Repositories if you Want to Rebuild the Packages</h4>
+
+<p>Users that want to rebuild the packages will need the following lines:</p>
+
+<pre><code>deb-src ftp://ftp.berlios.de/pub/fbsplash/debian/splashutils sid contrib
+deb ftp://ftp.berlios.de/pub/fbsplash/debian/klibc sid contrib
+</code></pre>
+
+<p>The first line is the source of splashutils, the second line is a dependency to
+a fbsplash-aware klibc. The klibc itself can also be rebuilt using:</p>
+
+<pre><code>deb-src ftp://ftp.berlios.de/pub/fbsplash/debian/klibc sid contrib
+</code></pre>
+
+<h3>Ackowledgements</h3>
+
+<p>Big thanks to <a href="mailto:eklektist@gmail.com">ekl</a> for providing the powerpc
+debian packages.</p>
+
+<p>Here is the HOWTO he wrote when doing it on this architecture:</p>
+
+<pre><code>REQUIRED (for console decorations): a fbcondecor patched kernel and the related source directory
+
+splashutils howto:
+
+1) add deb-src lines to sources.list
+    echo "# fbsplash / fbcondecor" &gt;&gt; /etc/apt/sources.list
+    echo "deb-src ftp://ftp.berlios.de/pub/fbsplash/debian/klibc sid contrib" &gt;&gt; /etc/apt/sources.list
+    echo "deb-src ftp://ftp.berlios.de/pub/fbsplash/debian/splashutils sid contrib" &gt;&gt; /etc/apt/sources.list
+
+
+2) if you're not using unstable (sid), set apt preferences and whatever else is needed to manage a mixed system
+(in my system, apt pinning is set for using unstable packages only when the package i'm going to install is not available in testing)
+NOTE: this may or may not be needed, read documentation about managing mixed systems 
+
+my example:
+    echo "Package: *" &gt;&gt; /etc/apt/preferences
+    echo "Pin: release a=unstable" &gt;&gt; /etc/apt/preferences
+    echo "Pin-Priority: 900" &gt;&gt; /etc/apt/preferences
+
+3) update apt sources launching
+    aptitude update
+
+4) install dependencies to build klibc
+    aptitude install cdbs debhelper bison gcc-4.1
+
+5) download and build klibc
+    apt-get -b source klibc
+
+    *** error ***
+
+don't worry, this is normal.
+
+fix:
+edit klibc's debian/control and remove "linux-headers-2.6.25-tuxonice-fbcon" from the dependencies line
+edit klibc's debian/rules and replace all the instances of "/usr/src/linux-headers-2.6.25-tuxonice-fbcon" with the real path to fbcon-patched kernel, usually "/usr/src/linux"
+
+launch again
+    apt-get -b source klibc
+
+
+6) install all .deb packages in klibc building directory
+dpkg -i *klibc*.deb
+
+
+7) install dependencies to build splashutils
+    aptitude install libpng12-dev libjpeg62-dev libfreetype6-dev libmng-dev libgpmg1-dev dpatch
+NOTE: dpatch is not listed in splashutils dependencies, but if you don't install it the build will fail for missing dpatch command.
+    JD (mantainer of splashutils for debian - thank him for most of this stuff) has been notified of this little problem and he's going to fix it
+
+8) build splashutils
+    apt-get -b source splashutils
+
+
+9) build miscsplashutils
+    apt-get -b source miscsplashutils
+
+
+10) Install splashutils and miscsplashutils
+    dpkg -i *.deb
+
+
+11) Download a theme and unpack it in /etc/splash/
+
+
+12) there are 2 ways now:
+    12a) use only the "default" theme
+        link /etc/splash/default to /etc/splash/selected_theme_name
+            ln -s /etc/splash/selected_theme_name /etc/splash/default
+        rebuild initramfs to add the default theme
+            mkinitramfs -o initrd-image-name kernel_version
+
+    12b) add multiple themes to initramfs
+        download and unpack all the themes you want in /etc/splash and rebuild initramfs
+            mkinitramfs -o initrd-image-name kernel_version
+        add all the themes to initramfs:
+            splash_geninitramfs -a initrd-image-name --all
+
+13) edit yaboot.conf and add splash options:
+        append="video=&lt;your_fb_driver&gt;:&lt;resolution-depth&gt; quiet splash=silent,fadein,fadeout,theme=&lt;default&gt; console=tty1"
+
+    example (for my iBook G3 clamshell)
+        append="video=atyfb:800x600-32 quiet splash=silent,fadein,fadeout,theme=default console=tty1"
+
+the end.
+
+if something goes wrong, you can try to mail me at eklektist@gmail.com
+
+usually i'm very busy, but if you're not hurry you can wait untill i have some free time for a reply
+
+ekl
+</code></pre>
+</div>
+
+        <div id='footer'>
+            Except where otherwise noted, content on this website is licensed
+            under the following license: <a
+            href='http://creativecommons.org/licenses/by-nc-sa/3.0/'>CC
+            Attribution-Noncommercial-Share Alike 3.0 Unported</a>
+        </div>
+    </body>
+</html>
